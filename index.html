@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vedic Hora Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --text-main: #2c3e50;
+            --text-light: #7f8c8d;
+            --card-bg: #ffffff;
+            
+            --sun-color: #ff9800;
+            --moon-color: #03a9f4;
+            --mars-color: #e53935;
+            --mercury-color: #4caf50;
+            --jupiter-color: #ffc107;
+            --venus-color: #e91e63;
+            --saturn-color: #3f51b5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+        }
+
+        #app-container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--bg-color);
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow-x: hidden;
+        }
+
+        /* Fixed Top Section */
+        .top-fixed-section {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--bg-color);
+            padding-bottom: 5px;
+            box-shadow: 0 10px 15px -10px rgba(0,0,0,0.08);
+        }
+
+        /* Header */
+        header {
+            padding: 20px 20px 15px 20px;
+            text-align: center;
+            background: var(--card-bg);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            position: relative;
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .date-display {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        .settings-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: transform 0.2s;
+        }
+        
+        .settings-btn:active {
+            transform: rotate(45deg);
+        }
+
+        /* Home Screen - Dashboard */
+        .dashboard {
+            padding: 20px 20px 10px 20px;
+        }
+
+        .live-card {
+            background: linear-gradient(135deg, #fff9c4, #ffecb3); 
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+            border-top: 5px solid var(--jupiter-color);
+            transition: all 0.3s ease;
+        }
+
+        .live-label {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #d4a017;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #ff3b30;
+            border-radius: 50%;
+            animation: blink 1s infinite alternate;
+        }
+
+        @keyframes blink {
+            from { opacity: 1; }
+            to { opacity: 0.3; }
+        }
+
+        .current-hora-name {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 8px 0;
+            color: #333;
+        }
+
+        .timer-container {
+            margin-top: 10px;
+        }
+
+        .timer {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.8);
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .time-range {
+            font-size: 13px;
+            color: #555;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        /* Timetable Section */
+        .section-title {
+            font-size: 18px;
+            margin: 10px 20px 15px 20px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .api-badge {
+            font-size: 11px;
+            font-weight: 500;
+            color: #4caf50;
+            background: #e8f5e9;
+            padding: 3px 8px;
+            border-radius: 10px;
+            border: 1px solid #c8e6c9;
+        }
+
+        .hora-list {
+            list-style: none;
+            padding: 0 20px 30px 20px;
+        }
+
+        .hora-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            border-left: 5px solid #ccc;
+            cursor: pointer;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+
+        .hora-item:active {
+            transform: scale(0.98);
+        }
+
+        .hora-info-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-grow: 1;
+        }
+
+        .hora-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hora-time {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        .hora-status {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            margin-right: 10px;
+        }
+
+        .status-active {
+            background: #2c3e50;
+            color: #fff;
+        }
+
+        .chevron {
+            color: #ccc;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Modal Styles (Details & Settings) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeInModal 0.2s ease-out forwards;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 420px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 16px;
+            padding: 25px;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.3s ease-out 0.1s forwards;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .modal-content::-webkit-scrollbar { width: 6px; }
+        .modal-content::-webkit-scrollbar-thumb { background-color: #ccc; border-radius: 10px; }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #f1f1f1;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            color: #555;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .close-btn:active { background: #e0e0e0; }
+
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Details Modal Content */
+        .do-dont-box {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .box { background: var(--bg-color); padding: 15px; border-radius: 10px; }
+        .box h4 { font-size: 14px; margin-bottom: 5px; font-weight: 600; }
+        .box-do h4 { color: #2e7d32; }
+        .box-dont h4 { color: #c62828; }
+        .box p { font-size: 13px; color: var(--text-main); line-height: 1.6; }
+
+        /* Settings Modal Specifics */
+        .settings-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .settings-header h2 { font-size: 22px; color: #333; margin-bottom: 5px; }
+        .settings-header p { font-size: 12px; color: var(--text-light); }
+        
+        .perm-box {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .perm-box.granted { background: #e8f5e9; border-color: #c8e6c9; }
+        .perm-box.denied { background: #ffebee; border-color: #ffcdd2; }
+        
+        .perm-btn {
+            background: #1976d2;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 5px;
+            border-bottom: 1px solid #eee;
+        }
+        .toggle-row:last-child { border-bottom: none; }
+        
+        .toggle-info { display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 15px; }
+        
+        /* Toggle Switch CSS */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: .3s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: #4caf50; }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+    </style>
+</head>
+<body>
+
+<div id="app-container">
+    
+    <!-- Fixed Top Section -->
+    <div class="top-fixed-section">
+        <header>
+            <h1>Vedic Hora Tracker</h1>
+            <div class="date-display" id="current-date-header">Loading...</div>
+            <div class="settings-btn" onclick="openSettingsModal()">⚙️</div>
+        </header>
+
+        <section class="dashboard">
+            <div class="live-card" id="live-card">
+                <div class="live-label"><div class="live-dot"></div> Live Now</div>
+                <div class="current-hora-name" id="live-hora-name">Fetching API...</div>
+                <div class="timer-container">
+                    <div class="timer" id="live-timer">00:00</div>
+                    <div class="time-range" id="live-time-range">Please wait</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scrollable Content -->
+    <main>
+        <section class="timetable-section">
+            <h2 class="section-title">
+                Today's Schedule 
+                <span class="api-badge" id="data-source-badge">Fetching Live Data...</span>
+            </h2>
+            <ul class="hora-list" id="timetable-list">
+                <!-- JavaScript will populate this -->
+            </ul>
+        </section>
+    </main>
+</div>
+
+<!-- Details Modal -->
+<div class="modal-overlay" id="hora-modal">
+    <div class="modal-content" id="modal-content-box">
+        <button class="close-btn" onclick="closeModal('hora-modal')">✕</button>
+        <div id="modal-body">
+            <!-- Dynamic Content goes here -->
+        </div>
+    </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-overlay" id="settings-modal">
+    <div class="modal-content" style="border-top: 6px solid #607d8b;">
+        <button class="close-btn" onclick="closeModal('settings-modal')">✕</button>
+        <div class="settings-header">
+            <h2>Notifications 🔔</h2>
+            <p>Get alerted 5 minutes before your selected Hora starts.</p>
+        </div>
+        
+        <div id="permission-box" class="perm-box">
+            <h4 style="margin-bottom: 5px; color: #1565c0;">System Permission Required</h4>
+            <p style="font-size: 12px; color: #555;">Allow your browser to send alerts.</p>
+            <button class="perm-btn" onclick="requestNotificationPermission()">Enable Notifications</button>
+        </div>
+
+        <div id="toggles-container" style="margin-top: 10px;">
+            <!-- Toggles will be generated here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- DETAILED APP DATA ---
+    const planets = [
+        { id: 0, name: "Surya", english: "Sun", color: "var(--sun-color)", icon: "☀️", bgLight: "#fff3e0", nature: "Energetic & Authoritative", deity: "Lord Shiva / Lord Surya", do: "Excellent for government-related tasks, applying for jobs, meeting higher officials, signing contracts, taking medicine, buying gold, and spiritual initiations. Good time for taking charge and showing leadership.", dont: "Avoid moving into a new house, buying vehicles, romantic dates, dark/secretive activities, or starting peaceful and relaxing tasks." },
+        { id: 1, name: "Chandra", english: "Moon", color: "var(--moon-color)", icon: "🌙", bgLight: "#e1f5fe", nature: "Gentle, Creative & Fluctuating", deity: "Goddess Parvati", do: "Ideal for traveling, romance, gardening, dealing with food and liquids, meeting female relatives, starting creative projects, and buying new clothes or silver.", dont: "Avoid hard physical labor, risky ventures, making firm long-lasting decisions, or engaging in arguments." },
+        { id: 2, name: "Mangal", english: "Mars", color: "var(--mars-color)", icon: "🔴", bgLight: "#ffebee", nature: "Fierce, Active & Aggressive", deity: "Lord Hanuman / Kartikeya", do: "Highly favorable for sports, physical labor, dealing with machinery or weapons, repaying debts (helps clear them faster), medical surgeries, competitive exams, and resolving disputes.", dont: "Strictly avoid marriage proposals, making new friends, starting a peaceful journey, or buying new property. Keep your temper in check." },
+        { id: 3, name: "Budh", english: "Mercury", color: "var(--mercury-color)", icon: "🟢", bgLight: "#e8f5e9", nature: "Intellectual, Quick & Communicative", deity: "Lord Vishnu", do: "Perfect for education, learning new skills, accounting, writing, business meetings, launching apps/websites, sending important emails, and telecommunications.", dont: "Avoid buying real estate or property, and do not make long-term emotional commitments like finalizing marriage dates." },
+        { id: 4, name: "Guru", english: "Jupiter", color: "var(--jupiter-color)", icon: "🟡", bgLight: "#fffde7", nature: "Auspicious, Wise & Expansive", deity: "Lord Brahma / Brihaspati", do: "The most auspicious Hora! Best for all major beginnings, joining a course, financial planning, opening bank accounts, investments, weddings, spiritual activities, and consulting elders or mentors.", dont: "Avoid lying, cheating, illegal activities, or having harmful intentions towards others. Keep thoughts pure." },
+        { id: 5, name: "Shukra", english: "Venus", color: "var(--venus-color)", icon: "✨", bgLight: "#fce4ec", nature: "Luxurious, Artistic & Loving", deity: "Goddess Lakshmi", do: "Great for buying luxury items, vehicles, jewelry, and cosmetics. Excellent for artistic pursuits, romantic dates, beauty treatments, music, and interior decoration.", dont: "Avoid heavy physical labor, aggressive business negotiations, dealing with enemies, or mourning." },
+        { id: 6, name: "Shani", english: "Saturn", color: "var(--saturn-color)", icon: "🪐", bgLight: "#e8eaf6", nature: "Slow, Disciplined & Persistent", deity: "Lord Shiva / Shani Dev", do: "Favorable for agriculture, long-term investments, buying land, laying foundations, deep meditation, cleaning, dealing with iron/machinery, and finishing old pending tasks.", dont: "Avoid starting fast-paced businesses, short quick trips, buying new clothes, or expecting immediate results. Do not act in haste." }
+    ];
+
+    const horaSequence = [6, 4, 2, 0, 5, 3, 1]; 
+    const dayLords = [0, 1, 2, 3, 4, 5, 6]; 
+    let generatedHoras = []; 
+    
+    // Coordinates (Default to Bhilai, updated by GPS if allowed)
+    let LAT = 21.2060;
+    let LNG = 81.2820;
+    let locName = "Bhilai";
+
+    // --- NOTIFICATION SETTINGS STATE ---
+    // Default: Only Jupiter is true initially
+    let defaultPrefs = {0: false, 1: false, 2: false, 3: false, 4: true, 5: false, 6: false};
+    let userPrefs = JSON.parse(localStorage.getItem('horaNotifyPrefs')) || defaultPrefs;
+    let lastNotifiedHoraTimestamp = null; // To prevent duplicate alerts
+
+    // --- LOCATION LOGIC (NEW) ---
+    async function getUserLocation() {
+        return new Promise((resolve) => {
+            if (!navigator.geolocation) {
+                resolve(false);
+                return;
+            }
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    LAT = position.coords.latitude;
+                    LNG = position.coords.longitude;
+                    try {
+                        // Fetch City Name using free reverse geocoding API
+                        let res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${LAT}&longitude=${LNG}&localityLanguage=en`);
+                        let data = await res.json();
+                        locName = data.city || data.locality || "Local Area";
+                    } catch (e) {
+                        locName = "Current Location";
+                    }
+                    resolve(true);
+                },
+                (error) => {
+                    console.warn("Location denied. Using default (Bhilai).");
+                    resolve(false);
+                },
+                { timeout: 5000 } // Wait max 5 seconds for GPS
+            );
+        });
+    }
+
+    // --- HORA CALCULATION LOGIC ---
+    async function calculateDailyHoras() {
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date-header').innerText = `${now.toLocaleDateString('en-IN', options)} • ${locName}`;
+
+        let sunrise, sunset, nextSunrise;
+        let isUsingAPI = false;
+
+        try {
+            const [resToday, resTomorrow] = await Promise.all([
+                fetch(`https://api.sunrise-sunset.org/json?lat=${LAT}&lng=${LNG}&formatted=0&date=today`),
+                fetch(`https://api.sunrise-sunset.org/json?lat=${LAT}&lng=${LNG}&formatted=0&date=tomorrow`)
+            ]);
+            
+            const dataToday = await resToday.json();
+            const dataTomorrow = await resTomorrow.json();
+
+            if (dataToday.status === "OK" && dataTomorrow.status === "OK") {
+                sunrise = new Date(dataToday.results.sunrise);
+                sunset = new Date(dataToday.results.sunset);
+                nextSunrise = new Date(dataTomorrow.results.sunrise);
+                
+                if (now < sunrise) {
+                    const resYesterday = await fetch(`https://api.sunrise-sunset.org/json?lat=${LAT}&lng=${LNG}&formatted=0&date=yesterday`);
+                    const dataYesterday = await resYesterday.json();
+                    if(dataYesterday.status === "OK") {
+                        sunrise = new Date(dataYesterday.results.sunrise);
+                        sunset = new Date(dataYesterday.results.sunset);
+                        nextSunrise = new Date(dataToday.results.sunrise);
+                    }
+                }
+                isUsingAPI = true;
+            }
+        } catch (error) {
+            console.error("Failed to fetch real-time sun data, using fallback.", error);
+        }
+
+        if (!isUsingAPI) {
+            document.getElementById('data-source-badge').innerText = "Offline (Approx)";
+            document.getElementById('data-source-badge').style.color = "#e65100";
+            document.getElementById('data-source-badge').style.background = "#fff3e0";
+            document.getElementById('data-source-badge').style.borderColor = "#ffe0b2";
+
+            sunrise = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 5, 30, 0);
+            sunset = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 45, 0);
+            
+            if (now < sunrise) {
+                sunrise.setDate(sunrise.getDate() - 1);
+                sunset.setDate(sunset.getDate() - 1);
+            }
+            nextSunrise = new Date(sunrise);
+            nextSunrise.setDate(nextSunrise.getDate() + 1);
+        } else {
+            document.getElementById('data-source-badge').innerText = "Live API Data";
+        }
+
+        let dayDurationMs = sunset.getTime() - sunrise.getTime();
+        let nightDurationMs = nextSunrise.getTime() - sunset.getTime();
+        
+        let dayHoraDurationMs = dayDurationMs / 12;
+        let nightHoraDurationMs = nightDurationMs / 12;
+
+        let dayOfWeek = sunrise.getDay(); 
+        let firstPlanetId = dayLords[dayOfWeek];
+        let seqIndex = horaSequence.indexOf(firstPlanetId);
+
+        generatedHoras = [];
+        let currentTimeMarker = sunrise.getTime();
+
+        for (let i = 0; i < 24; i++) {
+            let currentPlanetId = horaSequence[(seqIndex + i) % 7];
+            let planetObj = planets.find(p => p.id === currentPlanetId);
+            
+            let isDayTime = i < 12;
+            let duration = isDayTime ? dayHoraDurationMs : nightHoraDurationMs;
+            
+            let horaStart = new Date(currentTimeMarker);
+            let horaEnd = new Date(currentTimeMarker + duration);
+            
+            generatedHoras.push({
+                index: i,
+                planet: planetObj,
+                start: horaStart,
+                end: horaEnd,
+                isDay: isDayTime
+            });
+            
+            currentTimeMarker += duration;
+        }
+
+        renderTimetable();
+        updateLiveDashboard();
+    }
+
+    // --- RENDER LOGIC ---
+    function formatTime(dateObj) {
+        let h = dateObj.getHours();
+        let m = dateObj.getMinutes();
+        let ampm = h >= 12 ? 'PM' : 'AM';
+        h = h % 12;
+        h = h ? h : 12; 
+        m = m < 10 ? '0' + m : m;
+        return `${h}:${m} ${ampm}`;
+    }
+
+    function renderTimetable() {
+        const list = document.getElementById('timetable-list');
+        list.innerHTML = '';
+        const now = new Date();
+
+        generatedHoras.forEach(hora => {
+            let isActive = now >= hora.start && now < hora.end;
+            let isPast = now > hora.end;
+            
+            let li = document.createElement('li');
+            li.className = `hora-item`;
+            li.style.borderLeftColor = hora.planet.color;
+            if (isActive) li.style.backgroundColor = hora.planet.bgLight;
+            if (isPast) li.style.opacity = '0.6';
+
+            li.onclick = () => openDetailsModal(hora.planet.id);
+
+            li.innerHTML = `
+                <div class="hora-info-wrapper">
+                    <div class="hora-info">
+                        <h3>${hora.planet.icon} ${hora.planet.name} Hora</h3>
+                        <div class="hora-time">${formatTime(hora.start)} - ${formatTime(hora.end)}</div>
+                    </div>
+                </div>
+                ${isActive ? `<div class="hora-status status-active" style="background-color:${hora.planet.color}">Live</div>` : ''}
+                <div class="chevron">›</div>
+            `;
+            
+            list.appendChild(li);
+            
+            if(isActive) {
+                setTimeout(() => {
+                    li.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 500); 
+            }
+        });
+    }
+
+    // --- MODAL LOGIC ---
+    function openDetailsModal(planetId) {
+        const p = planets.find(pl => pl.id === planetId);
+        const modal = document.getElementById('hora-modal');
+        const modalBox = document.getElementById('modal-content-box');
+        const body = document.getElementById('modal-body');
+
+        modalBox.style.borderTop = `6px solid ${p.color}`;
+
+        body.innerHTML = `
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="font-size: 24px; color: #333; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <span style="font-size: 28px;">${p.icon}</span> ${p.name} Hora
+                </h2>
+                <p style="font-size: 13px; color: #777; font-weight: 500;">Ruled by ${p.english} • ${p.nature}</p>
+            </div>
+            
+            <div class="do-dont-box">
+                <div class="box box-do">
+                    <h4>✅ Most Auspicious For (Do's):</h4>
+                    <p>${p.do}</p>
+                </div>
+                <div class="box box-dont">
+                    <h4>❌ Best To Avoid (Don'ts):</h4>
+                    <p>${p.dont}</p>
+                </div>
+                <div class="box" style="background: #f8f9fa; border: 1px solid #eee;">
+                    <h4>🕉️ Associated Deity:</h4>
+                    <p>${p.deity}</p>
+                </div>
+            </div>
+        `;
+        
+        modal.style.display = 'flex';
+    }
+
+    function openSettingsModal() {
+        renderSettingsToggles();
+        checkPermissionStatusUI();
+        document.getElementById('settings-modal').style.display = 'flex';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal-overlay')) {
+            event.target.style.display = 'none';
+        }
+    }
+
+    // --- NOTIFICATION SETTINGS LOGIC ---
+    function renderSettingsToggles() {
+        const container = document.getElementById('toggles-container');
+        container.innerHTML = '';
+
+        planets.forEach(p => {
+            let row = document.createElement('div');
+            row.className = 'toggle-row';
+            
+            let isChecked = userPrefs[p.id] ? "checked" : "";
+            
+            row.innerHTML = `
+                <div class="toggle-info">
+                    <span style="font-size:20px">${p.icon}</span> 
+                    <span style="color:${p.color}">${p.name}</span>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" ${isChecked} onchange="togglePref(${p.id}, this.checked)">
+                    <span class="slider"></span>
+                </label>
+            `;
+            container.appendChild(row);
+        });
+    }
+
+    function togglePref(planetId, isChecked) {
+        userPrefs[planetId] = isChecked;
+        localStorage.setItem('horaNotifyPrefs', JSON.stringify(userPrefs));
+    }
+
+    function checkPermissionStatusUI() {
+        const box = document.getElementById('permission-box');
+        if (!("Notification" in window)) {
+            box.className = "perm-box denied";
+            box.innerHTML = `<h4 style="color:#c62828;">Not Supported</h4><p style="font-size:12px;">Your browser doesn't support alerts.</p>`;
+            return;
+        }
+
+        if (Notification.permission === "granted") {
+            box.className = "perm-box granted";
+            box.innerHTML = `<h4 style="color:#2e7d32;">✅ Notifications Active</h4><p style="font-size:12px; color:#555;">You will receive timely alerts.</p>`;
+        } else if (Notification.permission === "denied") {
+            box.className = "perm-box denied";
+            box.innerHTML = `<h4 style="color:#c62828;">❌ Notifications Blocked</h4><p style="font-size:12px; color:#555;">Please allow permissions in browser settings.</p>`;
+        }
+    }
+
+    async function requestNotificationPermission() {
+        if ("Notification" in window) {
+            let perm = await Notification.requestPermission();
+            checkPermissionStatusUI();
+            if(perm === "granted"){
+                new Notification("Vedic Hora Tracker", { body: "Notifications successfully enabled!", icon: "🔔" });
+            }
+        }
+    }
+
+    // Checking if any selected Hora is 5 mins away
+    function checkBackgroundAlerts(now) {
+        // Only run if permission is granted
+        if (!("Notification" in window) || Notification.permission !== "granted") return;
+
+        // Find the index of current hora
+        let currentIdx = generatedHoras.findIndex(h => now >= h.start && now < h.end);
+        if (currentIdx === -1 || currentIdx >= generatedHoras.length - 1) return;
+
+        let nextHora = generatedHoras[currentIdx + 1];
+        let timeToNextMs = nextHora.start.getTime() - now.getTime();
+
+        // 5 Minutes = 300,000 milliseconds
+        // If it's exactly 5 minutes (or slightly less due to tick) AND user has enabled it
+        if (timeToNextMs <= 300000 && timeToNextMs > 290000) {
+            // Check if user turned on toggle and we haven't already notified them for this exact timestamp
+            if (userPrefs[nextHora.planet.id] && lastNotifiedHoraTimestamp !== nextHora.start.getTime()) {
+                
+                // Trigger Browser Notification
+                new Notification(`${nextHora.planet.icon} ${nextHora.planet.name} Hora Soon!`, {
+                    body: `Starts in 5 minutes. Best for: ${nextHora.planet.do.substring(0, 50)}...`,
+                    requireInteraction: true
+                });
+
+                lastNotifiedHoraTimestamp = nextHora.start.getTime(); // Mark as notified
+            }
+        }
+    }
+
+    // --- LIVE TIMER LOGIC ---
+    function updateLiveDashboard() {
+        const now = new Date();
+        const currentHora = generatedHoras.find(h => now >= h.start && now < h.end);
+        
+        if (!currentHora) return; 
+
+        // Run background alert check every second
+        checkBackgroundAlerts(now);
+
+        const card = document.getElementById('live-card');
+        const nameEl = document.getElementById('live-hora-name');
+        const timerEl = document.getElementById('live-timer');
+        const rangeEl = document.getElementById('live-time-range');
+
+        nameEl.innerText = `${currentHora.planet.icon} ${currentHora.planet.name} Hora`;
+        rangeEl.innerText = `${formatTime(currentHora.start)} - ${formatTime(currentHora.end)}`;
+        
+        card.style.borderTopColor = currentHora.planet.color;
+        card.style.background = `linear-gradient(135deg, #ffffff, ${currentHora.planet.bgLight})`;
+        timerEl.style.color = currentHora.planet.color;
+        
+        let diffMs = currentHora.end.getTime() - now.getTime();
+        
+        if (diffMs <= 0) {
+            setTimeout(calculateDailyHoras, 1000);
+            return;
+        }
+
+        let totalSeconds = Math.floor(diffMs / 1000);
+        let m = Math.floor(totalSeconds / 60);
+        let s = totalSeconds % 60;
+        
+        m = m < 10 ? '0' + m : m;
+        s = s < 10 ? '0' + s : s;
+        
+        timerEl.innerText = `${m}:${s}`;
+    }
+
+    // --- INITIALIZATION ---
+    window.onload = async () => {
+        document.getElementById('current-date-header').innerText = "Locating you 📍...";
+        
+        // 1. Get exact GPS location first
+        await getUserLocation(); 
+        
+        // 2. Fetch accurate data and build list
+        await calculateDailyHoras();
+        
+        // 3. Start the live countdown every second
+        setInterval(updateLiveDashboard, 1000);
+    };
+
+</script>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDYMh_dCRcC4y5GEFZPUMYZmTusVYHlUEI",
+    authDomain: "hora-vedic-timer.firebaseapp.com",
+    projectId: "hora-vedic-timer",
+    storageBucket: "hora-vedic-timer.firebasestorage.app",
+    messagingSenderId: "375669981213",
+    appId: "1:375669981213:web:13d3846380342af8e146f4",
+    measurementId: "G-QVJYKTPTXQ"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+</body>
+</html>
