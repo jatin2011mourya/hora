@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "da94a245-2cce-4eb5-aaa5-005906ee4280",
-      safari_web_id: "web.onesignal.auto.4cf0d27e-fe33-43e6-b134-272c9aaf00b9",
-      notifyButton: {
-        enable: true,
-      },
-    });
-  });
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vedic Hora Tracker</title>
@@ -107,7 +94,7 @@
             transform: rotate(45deg);
         }
 
-        /* Home Screen - Dashboard */
+        /* Dashboard */
         .dashboard {
             padding: 20px 20px 10px 20px;
         }
@@ -154,9 +141,7 @@
             color: #333;
         }
 
-        .timer-container {
-            margin-top: 10px;
-        }
+        .timer-container { margin-top: 10px; }
 
         .timer {
             font-size: 22px;
@@ -216,9 +201,7 @@
             transition: transform 0.1s ease, box-shadow 0.1s ease;
         }
 
-        .hora-item:active {
-            transform: scale(0.98);
-        }
+        .hora-item:active { transform: scale(0.98); }
 
         .hora-info-wrapper {
             display: flex;
@@ -250,18 +233,11 @@
             margin-right: 10px;
         }
 
-        .status-active {
-            background: #2c3e50;
-            color: #fff;
-        }
+        .status-active { background: #2c3e50; color: #fff; }
 
-        .chevron {
-            color: #ccc;
-            font-size: 18px;
-            font-weight: bold;
-        }
+        .chevron { color: #ccc; font-size: 18px; font-weight: bold; }
 
-        /* Modal Styles (Details & Settings) */
+        /* Modal Styles */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -316,12 +292,7 @@
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Details Modal Content */
-        .do-dont-box {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 15px;
-        }
+        .do-dont-box { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
         .box { background: var(--bg-color); padding: 15px; border-radius: 10px; }
         .box h4 { font-size: 14px; margin-bottom: 5px; font-weight: 600; }
         .box-do h4 { color: #2e7d32; }
@@ -329,10 +300,7 @@
         .box p { font-size: 13px; color: var(--text-main); line-height: 1.6; }
 
         /* Settings Modal Specifics */
-        .settings-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+        .settings-header { text-align: center; margin-bottom: 20px; }
         .settings-header h2 { font-size: 22px; color: #333; margin-bottom: 5px; }
         .settings-header p { font-size: 12px; color: var(--text-light); }
         
@@ -348,57 +316,61 @@
         .perm-box.denied { background: #ffebee; border-color: #ffcdd2; }
         
         .perm-btn {
-            background: #1976d2;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
+            background: #1976d2; color: white; border: none; padding: 8px 15px;
+            border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 10px;
         }
 
         .toggle-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 5px;
-            border-bottom: 1px solid #eee;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 5px; border-bottom: 1px solid #eee;
         }
         .toggle-row:last-child { border-bottom: none; }
-        
         .toggle-info { display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 15px; }
         
-        /* Toggle Switch CSS */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 44px;
-            height: 24px;
+        /* Language Toggle Segment */
+        .lang-switch-container {
+            display: flex; justify-content: center; margin-bottom: 20px;
         }
+        .lang-switch {
+            background: #f1f1f1; border-radius: 30px; display: inline-flex; padding: 4px;
+        }
+        .lang-btn {
+            padding: 6px 20px; border-radius: 26px; border: none; background: transparent;
+            font-size: 13px; font-weight: 600; cursor: pointer; color: #555; transition: 0.3s;
+        }
+        .lang-btn.active { background: #fff; color: #333; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+        /* Switch CSS */
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #ccc;
-            transition: .3s;
-            border-radius: 24px;
-        }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .3s;
-            border-radius: 50%;
-        }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .3s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
         input:checked + .slider { background-color: #4caf50; }
         input:checked + .slider:before { transform: translateX(20px); }
+
+        /* In-App Toast Notification (WhatsApp Style) */
+        .toast-container {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            z-index: 2000;
+            transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-left: 5px solid var(--jupiter-color);
+            cursor: pointer;
+        }
+        .toast-container.show { top: 20px; }
+        .toast-icon { font-size: 30px; margin-right: 15px; }
+        .toast-content h4 { margin: 0; font-size: 15px; color: #333; font-weight: 600;}
+        .toast-content p { margin: 2px 0 0 0; font-size: 12px; color: #666; }
 
     </style>
 </head>
@@ -409,18 +381,18 @@
     <!-- Fixed Top Section -->
     <div class="top-fixed-section">
         <header>
-            <h1>Vedic Hora Tracker</h1>
+            <h1 id="ui-title">Vedic Hora Tracker</h1>
             <div class="date-display" id="current-date-header">Loading...</div>
             <div class="settings-btn" onclick="openSettingsModal()">⚙️</div>
         </header>
 
         <section class="dashboard">
             <div class="live-card" id="live-card">
-                <div class="live-label"><div class="live-dot"></div> Live Now</div>
+                <div class="live-label"><div class="live-dot"></div> <span id="ui-live-now">Live Now</span></div>
                 <div class="current-hora-name" id="live-hora-name">Fetching API...</div>
                 <div class="timer-container">
                     <div class="timer" id="live-timer">00:00</div>
-                    <div class="time-range" id="live-time-range">Please wait</div>
+                    <div class="time-range" id="live-time-range" class="ui-please-wait">Please wait</div>
                 </div>
             </div>
         </section>
@@ -430,7 +402,7 @@
     <main>
         <section class="timetable-section">
             <h2 class="section-title">
-                Today's Schedule 
+                <span id="ui-schedule">Today's Schedule</span>
                 <span class="api-badge" id="data-source-badge">Fetching Live Data...</span>
             </h2>
             <ul class="hora-list" id="timetable-list">
@@ -445,7 +417,7 @@
     <div class="modal-content" id="modal-content-box">
         <button class="close-btn" onclick="closeModal('hora-modal')">✕</button>
         <div id="modal-body">
-            <!-- Dynamic Content goes here -->
+            <!-- Dynamic Content -->
         </div>
     </div>
 </div>
@@ -454,76 +426,143 @@
 <div class="modal-overlay" id="settings-modal">
     <div class="modal-content" style="border-top: 6px solid #607d8b;">
         <button class="close-btn" onclick="closeModal('settings-modal')">✕</button>
+        
         <div class="settings-header">
-            <h2>Notifications 🔔</h2>
-            <p>Get alerted 5 minutes before your selected Hora starts.</p>
+            <h2 id="ui-settings-title">Notifications 🔔</h2>
+            <p id="ui-settings-desc">Get alerted 5 minutes before your selected Hora starts.</p>
+        </div>
+
+        <div class="lang-switch-container">
+            <div class="lang-switch">
+                <button class="lang-btn active" id="btn-en" onclick="setLanguage('en')">English</button>
+                <button class="lang-btn" id="btn-hi" onclick="setLanguage('hi')">हिंदी</button>
+            </div>
         </div>
         
         <div id="permission-box" class="perm-box">
-            <h4 style="margin-bottom: 5px; color: #1565c0;">System Permission Required</h4>
-            <p style="font-size: 12px; color: #555;">Allow your browser to send alerts.</p>
-            <button class="perm-btn" onclick="requestNotificationPermission()">Enable Notifications</button>
+            <!-- Populated by JS based on language -->
         </div>
 
         <div id="toggles-container" style="margin-top: 10px;">
-            <!-- Toggles will be generated here -->
+            <!-- Toggles generated here -->
         </div>
     </div>
 </div>
 
+<!-- In-App Toast Notification -->
+<div class="toast-container" id="in-app-toast" onclick="closeToast()">
+    <div class="toast-icon" id="toast-icon">🟡</div>
+    <div class="toast-content">
+        <h4 id="toast-title">Guru Hora Soon!</h4>
+        <p id="toast-desc">Starts in 5 minutes.</p>
+    </div>
+</div>
+
 <script>
-    // --- DETAILED APP DATA ---
+    // --- LANGUAGE DICTIONARY & DATA ---
+    const t = {
+        en: {
+            title: "Vedic Hora Tracker", liveNow: "Live Now", schedule: "Today's Schedule",
+            fetchingApi: "Fetching API...", pleaseWait: "Please wait", fetchingData: "Fetching Live Data...",
+            offlineAppx: "Offline (Approx)", liveData: "Live API Data", locating: "Locating you 📍...",
+            notifTitle: "Notifications 🔔", notifDesc: "Get alerted 5 minutes before your selected Hora starts.",
+            permReq: "System Permission Required", permDesc: "Allow your browser to send alerts.", enableBtn: "Enable Notifications",
+            permGranted: "✅ Notifications Active", permGrantedDesc: "You will receive timely alerts.",
+            permDenied: "❌ Notifications Blocked", permDeniedDesc: "Please allow permissions in browser settings.",
+            notSupported: "Not Supported", notSupportedDesc: "Your browser doesn't support alerts.",
+            doTitle: "✅ Most Auspicious For (Do's):", dontTitle: "❌ Best To Avoid (Don'ts):", deityTitle: "🕉️ Associated Deity:",
+            ruledBy: "Ruled by", startsIn: "Starts in 5 minutes. Best for: "
+        },
+        hi: {
+            title: "वैदिक होरा ट्रैकर", liveNow: "अभी लाइव", schedule: "आज का शेड्यूल",
+            fetchingApi: "डेटा ला रहा है...", pleaseWait: "कृपया प्रतीक्षा करें", fetchingData: "लाइव डेटा ला रहा है...",
+            offlineAppx: "ऑफ़लाइन (अनुमानित)", liveData: "लाइव API डेटा", locating: "लोकेशन ढूँढ रहे हैं 📍...",
+            notifTitle: "सूचनाएं 🔔", notifDesc: "आपकी चुनी हुई होरा शुरू होने से 5 मिनट पहले अलर्ट पाएं।",
+            permReq: "सिस्टम अनुमति आवश्यक है", permDesc: "अपने ब्राउज़र को अलर्ट भेजने की अनुमति दें।", enableBtn: "सूचनाएं चालू करें",
+            permGranted: "✅ सूचनाएं चालू हैं", permGrantedDesc: "आपको समय पर अलर्ट मिलेंगे।",
+            permDenied: "❌ सूचनाएं ब्लॉक हैं", permDeniedDesc: "कृपया ब्राउज़र सेटिंग में अनुमति दें।",
+            notSupported: "समर्थित नहीं है", notSupportedDesc: "आपका ब्राउज़र अलर्ट का समर्थन नहीं करता है।",
+            doTitle: "✅ इन कार्यों के लिए शुभ:", dontTitle: "❌ इन कार्यों से बचें:", deityTitle: "🕉️ संबंधित देवता:",
+            ruledBy: "शासक:", startsIn: "5 मिनट में शुरू। शुभ कार्य: "
+        }
+    };
+
     const planets = [
-        { id: 0, name: "Surya", english: "Sun", color: "var(--sun-color)", icon: "☀️", bgLight: "#fff3e0", nature: "Energetic & Authoritative", deity: "Lord Shiva / Lord Surya", do: "Excellent for government-related tasks, applying for jobs, meeting higher officials, signing contracts, taking medicine, buying gold, and spiritual initiations. Good time for taking charge and showing leadership.", dont: "Avoid moving into a new house, buying vehicles, romantic dates, dark/secretive activities, or starting peaceful and relaxing tasks." },
-        { id: 1, name: "Chandra", english: "Moon", color: "var(--moon-color)", icon: "🌙", bgLight: "#e1f5fe", nature: "Gentle, Creative & Fluctuating", deity: "Goddess Parvati", do: "Ideal for traveling, romance, gardening, dealing with food and liquids, meeting female relatives, starting creative projects, and buying new clothes or silver.", dont: "Avoid hard physical labor, risky ventures, making firm long-lasting decisions, or engaging in arguments." },
-        { id: 2, name: "Mangal", english: "Mars", color: "var(--mars-color)", icon: "🔴", bgLight: "#ffebee", nature: "Fierce, Active & Aggressive", deity: "Lord Hanuman / Kartikeya", do: "Highly favorable for sports, physical labor, dealing with machinery or weapons, repaying debts (helps clear them faster), medical surgeries, competitive exams, and resolving disputes.", dont: "Strictly avoid marriage proposals, making new friends, starting a peaceful journey, or buying new property. Keep your temper in check." },
-        { id: 3, name: "Budh", english: "Mercury", color: "var(--mercury-color)", icon: "🟢", bgLight: "#e8f5e9", nature: "Intellectual, Quick & Communicative", deity: "Lord Vishnu", do: "Perfect for education, learning new skills, accounting, writing, business meetings, launching apps/websites, sending important emails, and telecommunications.", dont: "Avoid buying real estate or property, and do not make long-term emotional commitments like finalizing marriage dates." },
-        { id: 4, name: "Guru", english: "Jupiter", color: "var(--jupiter-color)", icon: "🟡", bgLight: "#fffde7", nature: "Auspicious, Wise & Expansive", deity: "Lord Brahma / Brihaspati", do: "The most auspicious Hora! Best for all major beginnings, joining a course, financial planning, opening bank accounts, investments, weddings, spiritual activities, and consulting elders or mentors.", dont: "Avoid lying, cheating, illegal activities, or having harmful intentions towards others. Keep thoughts pure." },
-        { id: 5, name: "Shukra", english: "Venus", color: "var(--venus-color)", icon: "✨", bgLight: "#fce4ec", nature: "Luxurious, Artistic & Loving", deity: "Goddess Lakshmi", do: "Great for buying luxury items, vehicles, jewelry, and cosmetics. Excellent for artistic pursuits, romantic dates, beauty treatments, music, and interior decoration.", dont: "Avoid heavy physical labor, aggressive business negotiations, dealing with enemies, or mourning." },
-        { id: 6, name: "Shani", english: "Saturn", color: "var(--saturn-color)", icon: "🪐", bgLight: "#e8eaf6", nature: "Slow, Disciplined & Persistent", deity: "Lord Shiva / Shani Dev", do: "Favorable for agriculture, long-term investments, buying land, laying foundations, deep meditation, cleaning, dealing with iron/machinery, and finishing old pending tasks.", dont: "Avoid starting fast-paced businesses, short quick trips, buying new clothes, or expecting immediate results. Do not act in haste." }
+        { id: 0, icon: "☀️", color: "var(--sun-color)", bgLight: "#fff3e0", 
+          en: { name: "Surya", english: "Sun", nature: "Energetic & Authoritative", deity: "Lord Shiva / Lord Surya", do: "Excellent for government-related tasks, applying for jobs, meeting higher officials, signing contracts, taking medicine, buying gold.", dont: "Avoid moving into a new house, buying vehicles, romantic dates, or starting peaceful tasks." },
+          hi: { name: "सूर्य", english: "रवि", nature: "ऊर्जावान और आधिकारिक", deity: "भगवान शिव / भगवान सूर्य", do: "सरकारी कार्यों, नौकरी के लिए आवेदन करने, अधिकारियों से मिलने, अनुबंधों पर हस्ताक्षर करने, सोना खरीदने के लिए उत्कृष्ट।", dont: "नए घर में जाने, वाहन खरीदने, रोमांटिक डेट्स या शांतिपूर्ण कार्य शुरू करने से बचें।" } },
+        { id: 1, icon: "🌙", color: "var(--moon-color)", bgLight: "#e1f5fe", 
+          en: { name: "Chandra", english: "Moon", nature: "Gentle, Creative & Fluctuating", deity: "Goddess Parvati", do: "Ideal for traveling, romance, gardening, dealing with food and liquids, meeting female relatives, starting creative projects.", dont: "Avoid hard physical labor, risky ventures, making firm long-lasting decisions, or engaging in arguments." },
+          hi: { name: "चंद्र", english: "सोम", nature: "सौम्य और रचनात्मक", deity: "देवी पार्वती", do: "यात्रा, रोमांस, बागवानी, भोजन और तरल पदार्थों से निपटने, रचनात्मक परियोजनाएं शुरू करने के लिए आदर्श।", dont: "कठोर शारीरिक श्रम, जोखिम भरे उपक्रमों, लंबे समय तक चलने वाले निर्णय लेने या बहस करने से बचें।" } },
+        { id: 2, icon: "🔴", color: "var(--mars-color)", bgLight: "#ffebee", 
+          en: { name: "Mangal", english: "Mars", nature: "Fierce, Active & Aggressive", deity: "Lord Hanuman / Kartikeya", do: "Highly favorable for sports, physical labor, dealing with machinery or weapons, repaying debts, medical surgeries, competitive exams.", dont: "Strictly avoid marriage proposals, making new friends, starting a peaceful journey, or buying new property." },
+          hi: { name: "मंगल", english: "मंगल", nature: "उग्र और सक्रिय", deity: "भगवान हनुमान / कार्तिकेय", do: "खेल, शारीरिक श्रम, मशीनरी या हथियारों से निपटने, कर्ज चुकाने, चिकित्सा सर्जरी, प्रतियोगी परीक्षाओं के लिए अत्यधिक अनुकूल।", dont: "विवाह प्रस्तावों, नए दोस्त बनाने, शांतिपूर्ण यात्रा शुरू करने या नई संपत्ति खरीदने से सख्ती से बचें।" } },
+        { id: 3, icon: "🟢", color: "var(--mercury-color)", bgLight: "#e8f5e9", 
+          en: { name: "Budh", english: "Mercury", nature: "Intellectual, Quick & Communicative", deity: "Lord Vishnu", do: "Perfect for education, learning new skills, accounting, writing, business meetings, launching apps/websites, telecommunications.", dont: "Avoid buying real estate or property, and do not make long-term emotional commitments." },
+          hi: { name: "बुध", english: "बुध", nature: "बौद्धिक और त्वरित", deity: "भगवान विष्णु", do: "शिक्षा, नए कौशल सीखने, लेखांकन, लेखन, व्यावसायिक बैठकों, ऐप/वेबसाइट लॉन्च करने, दूरसंचार के लिए बिल्कुल सही।", dont: "अचल संपत्ति या संपत्ति खरीदने से बचें, और दीर्घकालिक भावनात्मक प्रतिबद्धताएं न करें।" } },
+        { id: 4, icon: "🟡", color: "var(--jupiter-color)", bgLight: "#fffde7", 
+          en: { name: "Guru", english: "Jupiter", nature: "Auspicious, Wise & Expansive", deity: "Lord Brahma / Brihaspati", do: "The most auspicious Hora! Best for all major beginnings, joining a course, financial planning, investments, weddings, spiritual activities.", dont: "Avoid lying, cheating, illegal activities, or having harmful intentions towards others." },
+          hi: { name: "गुरु", english: "बृहस्पति", nature: "शुभ और बुद्धिमान", deity: "भगवान ब्रह्मा / बृहस्पति", do: "सबसे शुभ होरा! सभी प्रमुख शुरुआत, वित्तीय योजना, निवेश, शादी, आध्यात्मिक गतिविधियों के लिए सर्वश्रेष्ठ।", dont: "झूठ बोलने, धोखा देने, अवैध गतिविधियों या दूसरों के प्रति हानिकारक इरादे रखने से बचें।" } },
+        { id: 5, icon: "✨", color: "var(--venus-color)", bgLight: "#fce4ec", 
+          en: { name: "Shukra", english: "Venus", nature: "Luxurious, Artistic & Loving", deity: "Goddess Lakshmi", do: "Great for buying luxury items, vehicles, jewelry. Excellent for artistic pursuits, romantic dates, beauty treatments, interior decoration.", dont: "Avoid heavy physical labor, aggressive business negotiations, dealing with enemies, or mourning." },
+          hi: { name: "शुक्र", english: "शुक्र", nature: "विलासी और कलात्मक", deity: "देवी लक्ष्मी", do: "लक्जरी सामान, वाहन, गहने खरीदने के लिए बढ़िया। कलात्मक गतिविधियों, रोमांटिक डेट्स, सौंदर्य उपचार के लिए उत्कृष्ट।", dont: "भारी शारीरिक श्रम, आक्रामक व्यापार वार्ता, दुश्मनों से निपटने या शोक से बचें।" } },
+        { id: 6, icon: "🪐", color: "var(--saturn-color)", bgLight: "#e8eaf6", 
+          en: { name: "Shani", english: "Saturn", nature: "Slow, Disciplined & Persistent", deity: "Lord Shiva / Shani Dev", do: "Favorable for agriculture, long-term investments, buying land, deep meditation, cleaning, finishing old pending tasks.", dont: "Avoid starting fast-paced businesses, short quick trips, buying new clothes, or expecting immediate results." },
+          hi: { name: "शनि", english: "शनि", nature: "धीमा और अनुशासित", deity: "भगवान शिव / शनि देव", do: "कृषि, दीर्घकालिक निवेश, जमीन खरीदने, गहरी नींद, सफाई, पुराने लंबित कार्यों को पूरा करने के लिए अनुकूल।", dont: "तेज गति वाले व्यवसाय शुरू करने, छोटी त्वरित यात्राएं, नए कपड़े खरीदने या तत्काल परिणाम की उम्मीद करने से बचें।" } }
     ];
 
     const horaSequence = [6, 4, 2, 0, 5, 3, 1]; 
     const dayLords = [0, 1, 2, 3, 4, 5, 6]; 
     let generatedHoras = []; 
     
-    // Coordinates (Default to Bhilai, updated by GPS if allowed)
-    let LAT = 21.2060;
-    let LNG = 81.2820;
-    let locName = "Bhilai";
+    // Coordinates
+    let LAT = 21.2060; let LNG = 81.2820; let locName = "Bhilai";
 
-    // --- NOTIFICATION SETTINGS STATE ---
-    // Default: Only Jupiter is true initially
+    // --- STATE MANAGEMENT ---
+    let currentLang = localStorage.getItem('horaLangPrefs') || 'en';
     let defaultPrefs = {0: false, 1: false, 2: false, 3: false, 4: true, 5: false, 6: false};
     let userPrefs = JSON.parse(localStorage.getItem('horaNotifyPrefs')) || defaultPrefs;
-    let lastNotifiedHoraTimestamp = null; // To prevent duplicate alerts
+    let lastNotifiedHoraTimestamp = null;
 
-    // --- LOCATION LOGIC (NEW) ---
+    // --- LANGUAGE LOGIC ---
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('horaLangPrefs', lang);
+        
+        // Update Buttons
+        document.getElementById('btn-en').className = `lang-btn ${lang === 'en' ? 'active' : ''}`;
+        document.getElementById('btn-hi').className = `lang-btn ${lang === 'hi' ? 'active' : ''}`;
+        
+        // Update Static Texts
+        document.getElementById('ui-title').innerText = t[lang].title;
+        document.getElementById('ui-live-now').innerText = t[lang].liveNow;
+        document.getElementById('ui-schedule').innerText = t[lang].schedule;
+        document.getElementById('ui-settings-title').innerText = t[lang].notifTitle;
+        document.getElementById('ui-settings-desc').innerText = t[lang].notifDesc;
+        
+        // Re-render components
+        renderTimetable();
+        checkPermissionStatusUI();
+        renderSettingsToggles();
+        updateLiveDashboard();
+    }
+
+    // --- LOCATION LOGIC ---
     async function getUserLocation() {
         return new Promise((resolve) => {
-            if (!navigator.geolocation) {
-                resolve(false);
-                return;
-            }
+            if (!navigator.geolocation) return resolve(false);
             navigator.geolocation.getCurrentPosition(
                 async (position) => {
-                    LAT = position.coords.latitude;
-                    LNG = position.coords.longitude;
+                    LAT = position.coords.latitude; LNG = position.coords.longitude;
                     try {
-                        // Fetch City Name using free reverse geocoding API
-                        let res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${LAT}&longitude=${LNG}&localityLanguage=en`);
+                        let res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${LAT}&longitude=${LNG}&localityLanguage=${currentLang}`);
                         let data = await res.json();
                         locName = data.city || data.locality || "Local Area";
-                    } catch (e) {
-                        locName = "Current Location";
-                    }
+                    } catch (e) { locName = "Current Location"; }
                     resolve(true);
                 },
-                (error) => {
-                    console.warn("Location denied. Using default (Bhilai).");
-                    resolve(false);
-                },
-                { timeout: 5000 } // Wait max 5 seconds for GPS
+                (err) => resolve(false),
+                { timeout: 5000 }
             );
         });
     }
@@ -532,10 +571,12 @@
     async function calculateDailyHoras() {
         const now = new Date();
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('current-date-header').innerText = `${now.toLocaleDateString('en-IN', options)} • ${locName}`;
+        document.getElementById('current-date-header').innerText = `${now.toLocaleDateString(currentLang === 'hi' ? 'hi-IN' : 'en-IN', options)} • ${locName}`;
 
         let sunrise, sunset, nextSunrise;
         let isUsingAPI = false;
+        
+        document.getElementById('data-source-badge').innerText = t[currentLang].fetchingData;
 
         try {
             const [resToday, resTomorrow] = await Promise.all([
@@ -543,109 +584,69 @@
                 fetch(`https://api.sunrise-sunset.org/json?lat=${LAT}&lng=${LNG}&formatted=0&date=tomorrow`)
             ]);
             
-            const dataToday = await resToday.json();
-            const dataTomorrow = await resTomorrow.json();
+            const dataToday = await resToday.json(); const dataTomorrow = await resTomorrow.json();
 
             if (dataToday.status === "OK" && dataTomorrow.status === "OK") {
-                sunrise = new Date(dataToday.results.sunrise);
-                sunset = new Date(dataToday.results.sunset);
-                nextSunrise = new Date(dataTomorrow.results.sunrise);
-                
+                sunrise = new Date(dataToday.results.sunrise); sunset = new Date(dataToday.results.sunset); nextSunrise = new Date(dataTomorrow.results.sunrise);
                 if (now < sunrise) {
                     const resYesterday = await fetch(`https://api.sunrise-sunset.org/json?lat=${LAT}&lng=${LNG}&formatted=0&date=yesterday`);
                     const dataYesterday = await resYesterday.json();
                     if(dataYesterday.status === "OK") {
-                        sunrise = new Date(dataYesterday.results.sunrise);
-                        sunset = new Date(dataYesterday.results.sunset);
-                        nextSunrise = new Date(dataToday.results.sunrise);
+                        sunrise = new Date(dataYesterday.results.sunrise); sunset = new Date(dataYesterday.results.sunset); nextSunrise = new Date(dataToday.results.sunrise);
                     }
                 }
                 isUsingAPI = true;
             }
-        } catch (error) {
-            console.error("Failed to fetch real-time sun data, using fallback.", error);
-        }
+        } catch (error) { console.warn("API Failed"); }
 
+        let badge = document.getElementById('data-source-badge');
         if (!isUsingAPI) {
-            document.getElementById('data-source-badge').innerText = "Offline (Approx)";
-            document.getElementById('data-source-badge').style.color = "#e65100";
-            document.getElementById('data-source-badge').style.background = "#fff3e0";
-            document.getElementById('data-source-badge').style.borderColor = "#ffe0b2";
-
+            badge.innerText = t[currentLang].offlineAppx;
+            badge.style.color = "#e65100"; badge.style.background = "#fff3e0"; badge.style.borderColor = "#ffe0b2";
             sunrise = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 5, 30, 0);
             sunset = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 45, 0);
-            
-            if (now < sunrise) {
-                sunrise.setDate(sunrise.getDate() - 1);
-                sunset.setDate(sunset.getDate() - 1);
-            }
-            nextSunrise = new Date(sunrise);
-            nextSunrise.setDate(nextSunrise.getDate() + 1);
+            if (now < sunrise) { sunrise.setDate(sunrise.getDate() - 1); sunset.setDate(sunset.getDate() - 1); }
+            nextSunrise = new Date(sunrise); nextSunrise.setDate(nextSunrise.getDate() + 1);
         } else {
-            document.getElementById('data-source-badge').innerText = "Live API Data";
+            badge.innerText = t[currentLang].liveData;
         }
 
         let dayDurationMs = sunset.getTime() - sunrise.getTime();
         let nightDurationMs = nextSunrise.getTime() - sunset.getTime();
-        
-        let dayHoraDurationMs = dayDurationMs / 12;
-        let nightHoraDurationMs = nightDurationMs / 12;
+        let dayHoraDurationMs = dayDurationMs / 12; let nightHoraDurationMs = nightDurationMs / 12;
 
         let dayOfWeek = sunrise.getDay(); 
-        let firstPlanetId = dayLords[dayOfWeek];
-        let seqIndex = horaSequence.indexOf(firstPlanetId);
+        let seqIndex = horaSequence.indexOf(dayLords[dayOfWeek]);
 
-        generatedHoras = [];
-        let currentTimeMarker = sunrise.getTime();
-
+        generatedHoras = []; let currentTimeMarker = sunrise.getTime();
         for (let i = 0; i < 24; i++) {
             let currentPlanetId = horaSequence[(seqIndex + i) % 7];
             let planetObj = planets.find(p => p.id === currentPlanetId);
-            
             let isDayTime = i < 12;
             let duration = isDayTime ? dayHoraDurationMs : nightHoraDurationMs;
             
-            let horaStart = new Date(currentTimeMarker);
-            let horaEnd = new Date(currentTimeMarker + duration);
-            
-            generatedHoras.push({
-                index: i,
-                planet: planetObj,
-                start: horaStart,
-                end: horaEnd,
-                isDay: isDayTime
-            });
-            
+            generatedHoras.push({ index: i, planet: planetObj, start: new Date(currentTimeMarker), end: new Date(currentTimeMarker + duration), isDay: isDayTime });
             currentTimeMarker += duration;
         }
 
-        renderTimetable();
-        updateLiveDashboard();
+        renderTimetable(); updateLiveDashboard();
     }
 
     // --- RENDER LOGIC ---
     function formatTime(dateObj) {
-        let h = dateObj.getHours();
-        let m = dateObj.getMinutes();
-        let ampm = h >= 12 ? 'PM' : 'AM';
-        h = h % 12;
-        h = h ? h : 12; 
-        m = m < 10 ? '0' + m : m;
-        return `${h}:${m} ${ampm}`;
+        return dateObj.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
     }
 
     function renderTimetable() {
-        const list = document.getElementById('timetable-list');
-        list.innerHTML = '';
+        const list = document.getElementById('timetable-list'); list.innerHTML = '';
         const now = new Date();
 
         generatedHoras.forEach(hora => {
-            let isActive = now >= hora.start && now < hora.end;
-            let isPast = now > hora.end;
+            let isActive = now >= hora.start && now < hora.end; let isPast = now > hora.end;
+            let pData = hora.planet[currentLang];
             
             let li = document.createElement('li');
-            li.className = `hora-item`;
-            li.style.borderLeftColor = hora.planet.color;
+            li.className = `hora-item`; li.style.borderLeftColor = hora.planet.color;
             if (isActive) li.style.backgroundColor = hora.planet.bgLight;
             if (isPast) li.style.opacity = '0.6';
 
@@ -654,120 +655,84 @@
             li.innerHTML = `
                 <div class="hora-info-wrapper">
                     <div class="hora-info">
-                        <h3>${hora.planet.icon} ${hora.planet.name} Hora</h3>
+                        <h3>${hora.planet.icon} ${pData.name} Hora</h3>
                         <div class="hora-time">${formatTime(hora.start)} - ${formatTime(hora.end)}</div>
                     </div>
                 </div>
-                ${isActive ? `<div class="hora-status status-active" style="background-color:${hora.planet.color}">Live</div>` : ''}
+                ${isActive ? `<div class="hora-status status-active" style="background-color:${hora.planet.color}">${t[currentLang].liveNow}</div>` : ''}
                 <div class="chevron">›</div>
             `;
-            
             list.appendChild(li);
-            
-            if(isActive) {
-                setTimeout(() => {
-                    li.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 500); 
-            }
         });
     }
 
     // --- MODAL LOGIC ---
     function openDetailsModal(planetId) {
         const p = planets.find(pl => pl.id === planetId);
+        const pData = p[currentLang];
         const modal = document.getElementById('hora-modal');
         const modalBox = document.getElementById('modal-content-box');
-        const body = document.getElementById('modal-body');
-
+        
         modalBox.style.borderTop = `6px solid ${p.color}`;
-
-        body.innerHTML = `
+        document.getElementById('modal-body').innerHTML = `
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 style="font-size: 24px; color: #333; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                    <span style="font-size: 28px;">${p.icon}</span> ${p.name} Hora
+                    <span style="font-size: 28px;">${p.icon}</span> ${pData.name} Hora
                 </h2>
-                <p style="font-size: 13px; color: #777; font-weight: 500;">Ruled by ${p.english} • ${p.nature}</p>
+                <p style="font-size: 13px; color: #777; font-weight: 500;">${t[currentLang].ruledBy} ${pData.english} • ${pData.nature}</p>
             </div>
-            
             <div class="do-dont-box">
-                <div class="box box-do">
-                    <h4>✅ Most Auspicious For (Do's):</h4>
-                    <p>${p.do}</p>
-                </div>
-                <div class="box box-dont">
-                    <h4>❌ Best To Avoid (Don'ts):</h4>
-                    <p>${p.dont}</p>
-                </div>
-                <div class="box" style="background: #f8f9fa; border: 1px solid #eee;">
-                    <h4>🕉️ Associated Deity:</h4>
-                    <p>${p.deity}</p>
-                </div>
+                <div class="box box-do"><h4>${t[currentLang].doTitle}</h4><p>${pData.do}</p></div>
+                <div class="box box-dont"><h4>${t[currentLang].dontTitle}</h4><p>${pData.dont}</p></div>
+                <div class="box" style="background: #f8f9fa; border: 1px solid #eee;"><h4>${t[currentLang].deityTitle}</h4><p>${pData.deity}</p></div>
             </div>
         `;
-        
         modal.style.display = 'flex';
     }
 
     function openSettingsModal() {
-        renderSettingsToggles();
-        checkPermissionStatusUI();
+        renderSettingsToggles(); checkPermissionStatusUI();
         document.getElementById('settings-modal').style.display = 'flex';
     }
 
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
+    function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+    window.onclick = function(event) { if (event.target.classList.contains('modal-overlay')) event.target.style.display = 'none'; }
 
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal-overlay')) {
-            event.target.style.display = 'none';
-        }
-    }
-
-    // --- NOTIFICATION SETTINGS LOGIC ---
+    // --- SETTINGS & PERMISSION LOGIC ---
     function renderSettingsToggles() {
-        const container = document.getElementById('toggles-container');
-        container.innerHTML = '';
-
+        const container = document.getElementById('toggles-container'); container.innerHTML = '';
         planets.forEach(p => {
-            let row = document.createElement('div');
-            row.className = 'toggle-row';
-            
+            let row = document.createElement('div'); row.className = 'toggle-row';
             let isChecked = userPrefs[p.id] ? "checked" : "";
-            
             row.innerHTML = `
-                <div class="toggle-info">
-                    <span style="font-size:20px">${p.icon}</span> 
-                    <span style="color:${p.color}">${p.name}</span>
-                </div>
-                <label class="switch">
-                    <input type="checkbox" ${isChecked} onchange="togglePref(${p.id}, this.checked)">
-                    <span class="slider"></span>
-                </label>
+                <div class="toggle-info"><span style="font-size:20px">${p.icon}</span> <span style="color:${p.color}">${p[currentLang].name}</span></div>
+                <label class="switch"><input type="checkbox" ${isChecked} onchange="togglePref(${p.id}, this.checked)"><span class="slider"></span></label>
             `;
             container.appendChild(row);
         });
     }
 
     function togglePref(planetId, isChecked) {
-        userPrefs[planetId] = isChecked;
-        localStorage.setItem('horaNotifyPrefs', JSON.stringify(userPrefs));
+        userPrefs[planetId] = isChecked; localStorage.setItem('horaNotifyPrefs', JSON.stringify(userPrefs));
+        // If they enable a notification, ask for permission implicitly
+        if (isChecked && "Notification" in window && Notification.permission !== "granted") {
+            requestNotificationPermission();
+        }
     }
 
     function checkPermissionStatusUI() {
         const box = document.getElementById('permission-box');
         if (!("Notification" in window)) {
             box.className = "perm-box denied";
-            box.innerHTML = `<h4 style="color:#c62828;">Not Supported</h4><p style="font-size:12px;">Your browser doesn't support alerts.</p>`;
+            box.innerHTML = `<h4 style="color:#c62828;">${t[currentLang].notSupported}</h4><p style="font-size:12px;">${t[currentLang].notSupportedDesc}</p>`;
             return;
         }
-
         if (Notification.permission === "granted") {
             box.className = "perm-box granted";
-            box.innerHTML = `<h4 style="color:#2e7d32;">✅ Notifications Active</h4><p style="font-size:12px; color:#555;">You will receive timely alerts.</p>`;
-        } else if (Notification.permission === "denied") {
+            box.innerHTML = `<h4 style="color:#2e7d32;">${t[currentLang].permGranted}</h4><p style="font-size:12px; color:#555;">${t[currentLang].permGrantedDesc}</p>`;
+        } else {
             box.className = "perm-box denied";
-            box.innerHTML = `<h4 style="color:#c62828;">❌ Notifications Blocked</h4><p style="font-size:12px; color:#555;">Please allow permissions in browser settings.</p>`;
+            box.innerHTML = `<h4 style="color:#c62828;">${t[currentLang].permReq}</h4><p style="font-size:12px; color:#555;">${t[currentLang].permDesc}</p><button class="perm-btn" onclick="requestNotificationPermission()">${t[currentLang].enableBtn}</button>`;
         }
     }
 
@@ -775,37 +740,54 @@
         if ("Notification" in window) {
             let perm = await Notification.requestPermission();
             checkPermissionStatusUI();
-            if(perm === "granted"){
-                new Notification("Vedic Hora Tracker", { body: "Notifications successfully enabled!", icon: "🔔" });
-            }
+            if(perm === "granted") new Notification("Vedic Hora Tracker", { body: t[currentLang].permGrantedDesc, icon: "🔔" });
         }
     }
 
-    // Checking if any selected Hora is 5 mins away
-    function checkBackgroundAlerts(now) {
-        // Only run if permission is granted
-        if (!("Notification" in window) || Notification.permission !== "granted") return;
+    // --- LOCAL BACKGROUND NOTIFICATION LOGIC ---
+    function showInAppToast(horaObj) {
+        const toast = document.getElementById('in-app-toast');
+        document.getElementById('toast-icon').innerText = horaObj.planet.icon;
+        toast.style.borderLeftColor = horaObj.planet.color;
+        document.getElementById('toast-title').innerText = `${horaObj.planet[currentLang].name} Hora Soon!`;
+        document.getElementById('toast-desc').innerText = t[currentLang].startsIn + horaObj.planet[currentLang].do.substring(0, 40) + "...";
+        
+        // Vibrate if supported
+        if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
+        
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 6000); // Hide after 6 seconds
+    }
 
-        // Find the index of current hora
+    function closeToast() {
+        document.getElementById('in-app-toast').classList.remove('show');
+    }
+
+    function checkBackgroundAlerts(now) {
         let currentIdx = generatedHoras.findIndex(h => now >= h.start && now < h.end);
         if (currentIdx === -1 || currentIdx >= generatedHoras.length - 1) return;
 
         let nextHora = generatedHoras[currentIdx + 1];
         let timeToNextMs = nextHora.start.getTime() - now.getTime();
 
-        // 5 Minutes = 300,000 milliseconds
-        // If it's exactly 5 minutes (or slightly less due to tick) AND user has enabled it
+        // Check if within the 5-minute window (300000ms) and hasn't been notified yet
         if (timeToNextMs <= 300000 && timeToNextMs > 290000) {
-            // Check if user turned on toggle and we haven't already notified them for this exact timestamp
             if (userPrefs[nextHora.planet.id] && lastNotifiedHoraTimestamp !== nextHora.start.getTime()) {
-                
-                // Trigger Browser Notification
-                new Notification(`${nextHora.planet.icon} ${nextHora.planet.name} Hora Soon!`, {
-                    body: `Starts in 5 minutes. Best for: ${nextHora.planet.do.substring(0, 50)}...`,
-                    requireInteraction: true
-                });
-
                 lastNotifiedHoraTimestamp = nextHora.start.getTime(); // Mark as notified
+                
+                // Show WhatsApp style in-app banner if app is currently visible
+                if (document.visibilityState === 'visible') {
+                    showInAppToast(nextHora);
+                } 
+                
+                // Always send System Notification if permitted (works perfectly when minimized/background tab)
+                if ("Notification" in window && Notification.permission === "granted") {
+                    new Notification(`${nextHora.planet.icon} ${nextHora.planet[currentLang].name} Hora Soon!`, {
+                        body: t[currentLang].startsIn + nextHora.planet[currentLang].do.substring(0, 50) + "...",
+                        vibrate: [200, 100, 200],
+                        requireInteraction: true
+                    });
+                }
             }
         }
     }
@@ -814,55 +796,36 @@
     function updateLiveDashboard() {
         const now = new Date();
         const currentHora = generatedHoras.find(h => now >= h.start && now < h.end);
-        
         if (!currentHora) return; 
 
-        // Run background alert check every second
-        checkBackgroundAlerts(now);
+        checkBackgroundAlerts(now); // Local alert check
 
-        const card = document.getElementById('live-card');
-        const nameEl = document.getElementById('live-hora-name');
         const timerEl = document.getElementById('live-timer');
-        const rangeEl = document.getElementById('live-time-range');
-
-        nameEl.innerText = `${currentHora.planet.icon} ${currentHora.planet.name} Hora`;
-        rangeEl.innerText = `${formatTime(currentHora.start)} - ${formatTime(currentHora.end)}`;
+        document.getElementById('live-hora-name').innerText = `${currentHora.planet.icon} ${currentHora.planet[currentLang].name} Hora`;
+        document.getElementById('live-time-range').innerText = `${formatTime(currentHora.start)} - ${formatTime(currentHora.end)}`;
         
-        card.style.borderTopColor = currentHora.planet.color;
-        card.style.background = `linear-gradient(135deg, #ffffff, ${currentHora.planet.bgLight})`;
+        document.getElementById('live-card').style.borderTopColor = currentHora.planet.color;
+        document.getElementById('live-card').style.background = `linear-gradient(135deg, #ffffff, ${currentHora.planet.bgLight})`;
         timerEl.style.color = currentHora.planet.color;
         
         let diffMs = currentHora.end.getTime() - now.getTime();
-        
-        if (diffMs <= 0) {
-            setTimeout(calculateDailyHoras, 1000);
-            return;
-        }
+        if (diffMs <= 0) { setTimeout(calculateDailyHoras, 1000); return; }
 
-        let totalSeconds = Math.floor(diffMs / 1000);
-        let m = Math.floor(totalSeconds / 60);
-        let s = totalSeconds % 60;
-        
-        m = m < 10 ? '0' + m : m;
-        s = s < 10 ? '0' + s : s;
-        
-        timerEl.innerText = `${m}:${s}`;
+        let s = Math.floor(diffMs / 1000) % 60; let m = Math.floor(diffMs / 60000);
+        timerEl.innerText = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
     }
 
     // --- INITIALIZATION ---
     window.onload = async () => {
-        document.getElementById('current-date-header').innerText = "Locating you 📍...";
+        setLanguage(currentLang); // Apply saved language first
+        document.getElementById('current-date-header').innerText = t[currentLang].locating;
         
-        // 1. Get exact GPS location first
         await getUserLocation(); 
-        
-        // 2. Fetch accurate data and build list
         await calculateDailyHoras();
         
-        // 3. Start the live countdown every second
-        setInterval(updateLiveDashboard, 1000);
+        // Checks every second locally! No backend needed.
+        setInterval(updateLiveDashboard, 1000); 
     };
-
 </script>
 </body>
 </html>
