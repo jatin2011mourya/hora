@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "da94a245-2cce-4eb5-aaa5-005906ee4280",
+      safari_web_id: "web.onesignal.auto.4cf0d27e-fe33-43e6-b134-272c9aaf00b9",
+      notifyButton: {
+        enable: true,
+      },
+    });
+  });
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vedic Hora Tracker</title>
